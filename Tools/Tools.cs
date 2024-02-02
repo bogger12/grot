@@ -7,6 +7,26 @@ using System.Text.Json;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+public class Line {
+    public Vector2 origin;
+    public Vector2 vector;
+    public int thickness;
+    public Color color;
+    public Line(Vector2 origin, Vector2 vector, int thickness, Color color) {
+        this.origin = origin;
+        this.vector = vector;
+        this.thickness = thickness;
+        this.color = color;
+    }
+    public Line(Point startPos, Point endPos, int thickness, Color color) {
+        this.origin = Tools.Point2Vector(startPos);
+        this.vector = Tools.Point2Vector(endPos-startPos);
+        this.thickness = thickness;
+        this.color = color;
+    }
+}
+
+
 public static class Tools {
     public static Texture2D lineTex;
     public static Texture2D CreateLineTexture(SpriteBatch spriteBatch, Color color) {
@@ -17,17 +37,18 @@ public static class Tools {
         texture.SetData(data);
         return texture;
     }
-    public static void DrawLine(SpriteBatch spriteBatch, Vector2 startPos, Vector2 endPos, int thickness, Color color) {
+    public static void DrawLine(SpriteBatch spriteBatch, Line line, Camera camera) {
         if (lineTex is null) lineTex = CreateLineTexture(spriteBatch, Color.White);
-        float distance = Vector2.Distance(startPos, endPos);
+        float distance = line.vector.Length();
 
         // Rotate about the beginning middle of the line.
-        float rotation = (float)Math.Atan2(endPos.Y - startPos.Y, endPos.X - startPos.X);
-        Vector2 origin = new Vector2(0, thickness / 2);
+        float rotation = (float)Math.Atan2(line.vector.Y, line.vector.X);
+        Vector2 origin = new Vector2(0, line.thickness / 2);
         
-        Rectangle destrect = new Rectangle(Vector2Point(startPos), new Point((int)distance, thickness));
+        line.origin = camera.GetRenderPosition(line.origin); // Important to position element relative to camera
+        Rectangle destrect = new Rectangle(Vector2Point(line.origin), new Point((int)distance, line.thickness));
         // Debug.WriteLine(destrect);
-        spriteBatch.Draw(lineTex, destrect, null, color, rotation, origin, SpriteEffects.None, 0f);
+        spriteBatch.Draw(lineTex, destrect, null, line.color, rotation, origin, SpriteEffects.None, 0f);
     }
 
     public static Point Vector2Point(Vector2 input) {

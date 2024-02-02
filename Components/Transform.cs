@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using AlexMonoGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -32,7 +33,9 @@ public class Transform: Component {
         this.rotation = rotation;
         this.origin = new Point(dimensions.X/2, dimensions.Y/2);
     }
-    public override void Initialize() {}
+    public override void Initialize() {
+        Game1.transforms.Add(this);
+    }
     public override void Update(GameTime gameTime) {}
 
     public void SetParentTransform(Transform newparent) {

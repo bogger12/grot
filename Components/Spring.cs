@@ -34,8 +34,8 @@ public class Spring: Component {
         float F = springConstant * (distance > 0 ? distance: 0);
         distanceVector.Normalize();
         // Add Force to Rigidbody
-        rigidbody.AddForce(F*distanceVector*(float)gameTime.ElapsedGameTime.TotalSeconds);
-        rigidbody.AddForce(-dampeningCoefficient*rigidbody.velocity*(float)gameTime.ElapsedGameTime.TotalSeconds);
+        rigidbody.AddForce(F*distanceVector, gameTime);
+        rigidbody.AddForce(-dampeningCoefficient*rigidbody.velocity, gameTime);
         // rigidbody.velocity *= dampeningCoefficient*(float)gameTime.ElapsedGameTime.TotalSeconds;
     }
 }

@@ -1,9 +1,10 @@
 using Microsoft.Xna.Framework;
 
-public abstract class DynamicObject: GameObject {
+public class DynamicObject: GameObject {
 
     public BoxCollider collider;
     public Sprite sprite;
+    public Rigidbody rigidbody;
 
     public DynamicObject(string name): base(name) { }
 
@@ -11,6 +12,7 @@ public abstract class DynamicObject: GameObject {
         base.Initialize();
         collider = GetComponent<BoxCollider>();
         sprite = GetComponent<Sprite>();
+        rigidbody = GetComponent<Rigidbody>();
     }
 
 }

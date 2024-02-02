@@ -36,6 +36,7 @@ public class Entity {
     public int height { get; set; }
     public int originX { get; set; }
     public int originY { get; set; }
+    public CustomValues values { get; set; }
 }
 public class MapWrapper {
     public int width { get; set; }
@@ -43,6 +44,11 @@ public class MapWrapper {
     public int offsetX { get; set; }
     public int offsetY { get; set; }
     public List<Layer> layers { get; set; }
+}
+
+public class CustomValues {
+    public float mass { get; set; }
+    public string spritename { get; set; }
 }
 
 public class Map {
@@ -87,8 +93,15 @@ public class Map {
                 czone.AddComponent(new Transform(new Vector2(e.x*pixelScale,e.y*pixelScale), new Point(e.width*pixelScale,e.height*pixelScale), 0f));
                 czone.AddComponent(new BoxCollider(new Point(e.width*pixelScale, e.height*pixelScale)));
                 czone.Initialize();
-            }
-            if (e.name=="PlayerSpawn") {
+            } else if (e.name=="PhysicsObject") {
+                DynamicObject pobj = new DynamicObject(e._eid);
+                pobj.AddComponent(new Transform(new Vector2(e.x*pixelScale,e.y*pixelScale), new Point(e.width*pixelScale,e.height*pixelScale), 0f));
+                pobj.AddComponent(new BoxCollider(new Point(e.width*pixelScale, e.height*pixelScale)));
+                pobj.AddComponent(new Sprite(e.values.spritename, null));
+                pobj.AddComponent(new Rigidbody(e.values.mass));
+                pobj.Initialize();
+                Debug.WriteLine($"{Game1.colliders.Contains(pobj.collider)}");
+            } else if (e.name=="PlayerSpawn") {
                 player.rigidbody.position = new Vector2(e.x, e.y);
             }
         }

@@ -21,6 +21,10 @@ public class Camera: GameObject {
     }
 
     public Vector2 GetRenderPosition(Vector2 pos) {
-        return pos-transform.GlobalPosition;
+        return Tools.Vector2Int(pos-transform.GlobalPosition);
+    }
+
+    public Vector2 GetWorldPosition(Vector2 pos) {
+        return pos+transform.GlobalPosition;
     }
 }

@@ -14,7 +14,9 @@ public class Sprite: Component {
         this.sourceRect = sourceRect;
     }
 
-    public override void Initialize() {}
+    public override void Initialize() {
+        Game1.sprites.Add(this);
+    }
     public override void Update(GameTime gameTime) {}
     public void Load() {
         spriteTexture = Asset<Texture2D>.GetAsset(Game1.textures, texturename);

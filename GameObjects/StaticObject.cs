@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-public abstract class StaticObject: GameObject {
+public class StaticObject: GameObject {
 
     public BoxCollider collider;
     public Sprite sprite;
